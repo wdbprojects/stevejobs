@@ -15,7 +15,7 @@ const DarkMode = () => {
   if (!mounted) return null;
 
   return (
-    <div className="flex flex-col justify-center items-start gap-2 space-x-2">
+    <div className="flex flex-col items-start justify-center gap-2 space-x-2">
       <Switch
         id="switch-theme"
         checked={theme === "dark"}

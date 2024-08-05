@@ -2,10 +2,15 @@ import type { Metadata } from "next";
 import { nunitoSans } from "@/components/shared/fonts";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import Navbar from "@/components/layout/navbar";
+import Footer from "@/components/layout/footer";
 
 export const metadata: Metadata = {
-  title: "Steve Jobs",
-  description: "Jobs board application",
+  title: {
+    default: "Flow Jobs",
+    template: "%s | Flow Jobs",
+  },
+  description: "Find your dream developer job.",
 };
 
 export default function RootLayout({
@@ -21,7 +26,9 @@ export default function RootLayout({
           defaultTheme="dark"
           disableTransitionOnChange
         >
+          <Navbar />
           {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
