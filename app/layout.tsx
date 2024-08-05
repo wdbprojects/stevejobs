@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={nunitoSans.className}>
+      <body className={`${nunitoSans.className} min-w-[350px]`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
