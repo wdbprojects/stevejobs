@@ -19,3 +19,10 @@ export const relativeDate = (from: Date) => {
     addSuffix: true,
   });
 };
+
+export const toSlug = (str: string) => {
+  return str
+    .toLocaleLowerCase()
+    .replace(/ /g, "-")
+    .replace(/[^\w-]+/g, "-");
+};

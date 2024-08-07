@@ -30,6 +30,7 @@ import { Label } from "@/components/ui/label";
 import RichTextEditor from "@/components/forms/rich-text-editor";
 import "@/node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { draftToMarkdown } from "markdown-draft-js";
+import { createJobPosting } from "./actions";
 
 const NewJobForm = () => {
   const form = useForm<CreateJobValues>({
@@ -59,9 +60,18 @@ const NewJobForm = () => {
     formState: { isSubmitting },
   } = form;
 
-  const onSubmit = (values: CreateJobValues) => {
-    alert(JSON.stringify(values, null, 2));
-    console.log(values);
+  const onSubmit = async (values: CreateJobValues) => {
+    const formData = new FormData();
+    Object.entries(values).forEach(([key, value]) => {
+      if (value) {
+        formData.append(key, value);
+      }
+    });
+    try {
+      await createJobPosting(formData);
+    } catch (err) {
+      console.log(`Something went wrong: Error: ${err}`);
+    }
   };
 
   const handleReset = () => {
@@ -98,6 +108,7 @@ const NewJobForm = () => {
             <FormField
               control={control}
               name="title"
+              defaultValue=""
               render={({ field }) => {
                 return (
                   <FormItem>
