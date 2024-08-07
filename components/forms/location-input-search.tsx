@@ -49,7 +49,7 @@ export default forwardRef<HTMLInputElement, LocationInputProps>(
       <div className="relative">
         <Input
           autoComplete="off"
-          placeholder="Search for a city"
+          placeholder="Start typing the name of the city"
           type="search"
           {...props}
           ref={ref}

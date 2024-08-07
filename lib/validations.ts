@@ -27,7 +27,7 @@ const applicationSchema = z
     applicationUrl: z
       .string()
       .max(100, { message: "The url should be 100 chars tops." })
-      .email({ message: "Invalid URL" })
+      .url({ message: "Invalid URL" })
       .optional()
       .or(z.literal("")),
   })
@@ -60,12 +60,15 @@ const locationSchema = z
         !data.locationType || data.locationType === "Remote" || data.location
       );
     },
-    { message: "Location is required for on-site jobs", path: ["location"] },
+    {
+      message: "Office location is required for on-site or hybrid jobs",
+      path: ["location"],
+    },
   );
 
 const numericRequiredString = z
   .string()
-  .min(1, { message: "Field is required" })
+  .min(1, { message: "Salary is required" })
   .regex(/^\d+$/, { message: "This field must be a number" });
 
 export const createJobSchema = z

@@ -16,7 +16,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import FormSubmittButton from "@/components/jobs/form-submit-button";
 import {
   Select,
   SelectContent,
@@ -26,24 +25,27 @@ import {
 } from "@/components/ui/select";
 import { jobTypes, locationTypes } from "@/lib/job-types";
 import LocationInputSearch from "@/components/forms/location-input-search";
-import { X } from "lucide-react";
+import { Loader2, X } from "lucide-react";
 import { Label } from "@/components/ui/label";
+import RichTextEditor from "@/components/forms/rich-text-editor";
+import "@/node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { draftToMarkdown } from "markdown-draft-js";
 
 const NewJobForm = () => {
   const form = useForm<CreateJobValues>({
     resolver: zodResolver(createJobSchema),
-    defaultValues: {
-      title: "",
-      type: "",
-      companyName: "",
-      companyLogo: File | undefined,
-      locationType: "",
-      location: "",
-      applicationEmail: "",
-      applicationUrl: "",
-      description: "",
-      salary: "",
-    },
+    // defaultValues: {
+    //   title: "",
+    //   type: "",
+    //   companyName: "",
+    //   //companyLogo: File | undefined,
+    //   locationType: "",
+    //   location: "",
+    //   applicationEmail: "",
+    //   applicationUrl: "",
+    //   description: "",
+    //   salary: "",
+    // },
   });
 
   const {
@@ -214,7 +216,7 @@ const NewJobForm = () => {
                 );
               }}
             />
-            {/* LOCATION */}
+            {/* OFFICE LOCATION */}
             <FormField
               control={control}
               name="location"
@@ -250,9 +252,8 @@ const NewJobForm = () => {
                 );
               }}
             />
-
             {/* EMAIL & URL */}
-            <div className="space-y-2">
+            <div className="!mb-5 space-y-2">
               <Label htmlFor="applicationEmail">How to apply</Label>
               <div className="flex items-center justify-between">
                 <FormField
@@ -273,7 +274,7 @@ const NewJobForm = () => {
                             <span className="mx-2">or</span>
                           </div>
                         </FormControl>
-                        <FormMessage className="absolute left-0 top-9" />
+                        <FormMessage className="absolute left-0 top-8 mb-4" />
                       </FormItem>
                     );
                   }}
@@ -296,13 +297,62 @@ const NewJobForm = () => {
                             }}
                           />
                         </FormControl>
-                        <FormMessage className="absolute left-0 top-9" />
+                        <FormMessage className="absolute left-0 top-8" />
                       </FormItem>
                     );
                   }}
                 />
               </div>
             </div>
+            {/* RICH TEXT EDITOR */}
+            <FormField
+              control={control}
+              name="description"
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormLabel
+                      className="mb-0"
+                      onClick={() => {
+                        setFocus("description");
+                      }}
+                    >
+                      Job Description
+                    </FormLabel>
+                    <FormControl>
+                      <RichTextEditor
+                        onChange={(draft) => {
+                          field.onChange(draftToMarkdown(draft));
+                        }}
+                        ref={field.ref}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
+            />
+            {/* SALARY */}
+            <FormField
+              control={control}
+              name="salary"
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormLabel className="mb-0">Salary</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter the job's salary"
+                        {...field}
+                        autoComplete="off"
+                        type="number"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
+            />
 
             {/* BUTTONS */}
             <div className="!mt-8 flex justify-between gap-4">
@@ -314,8 +364,11 @@ const NewJobForm = () => {
               >
                 Reset form
               </Button>
-              <Button className="w-full" type="submit">
-                Submit form
+              <Button className="w-full" type="submit" disabled={isSubmitting}>
+                {isSubmitting && (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                <span>Submit form</span>
               </Button>
             </div>
           </form>
