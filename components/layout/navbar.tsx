@@ -17,7 +17,11 @@ const Navbar = () => {
         </Button>
 
         <div className="flex items-center justify-end gap-4">
-          <Button asChild variant="outline">
+          <Button
+            asChild
+            variant="outline"
+            className="dark:hover:bg-background/40"
+          >
             <Link href="/jobs/new">New Job</Link>
           </Button>
           <DarkMode />
