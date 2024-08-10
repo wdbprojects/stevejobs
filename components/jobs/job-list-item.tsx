@@ -28,7 +28,7 @@ const JobListItem = ({ job }: IJobListItem) => {
         alt={`${companyName} logo`}
         width={50}
         height={50}
-        className="h-10 w-10 self-center rounded-lg"
+        className="h-20 w-20 self-center rounded-lg"
       />
 
       <div className="flex-grow space-y-3">
