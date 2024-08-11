@@ -81,7 +81,7 @@ export const createJobSchema = z
       (value) => {
         return jobTypes.includes(value);
       },
-      { message: "Invalid job type", required_error: "Job type is required" },
+      { message: "Invalid job type" },
     ),
     companyName: z.string().min(1, { message: "Company name is required" }),
     companyLogo: companyLogoSchema,
